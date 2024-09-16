@@ -1,12 +1,12 @@
-// db.js
-import { Pool } from "pg";
+import pkg from "pg";
+const { Pool } = pkg;
 
 // Create a new pool with your database configuration
 const pool = new Pool({
   user: "mun44_",
   host: "localhost",
   database: "greatbeartechnology",
-  password: "Linux@1862",
+  password: "",
   port: 5432,
 });
 
