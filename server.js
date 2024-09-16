@@ -6,6 +6,7 @@ import { email } from "./constant.js";
 
 const app = express();
 const PORT = 8000;
+app.use(cors());
 
 // Middleware
 app.use(cors());
@@ -83,6 +84,6 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
