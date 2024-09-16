@@ -3,6 +3,7 @@ import cors from "cors";
 import { sendEmail } from "./sendEmail.js"; // Correct path to sendEmail
 import upload from "./utils/uploadFile.js"; // Correct path to uploadFile
 import { email } from "./constant.js";
+import pool from "./db.js";
 
 const app = express();
 const PORT = 8000;
@@ -12,6 +13,24 @@ app.use(cors());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Route to get all job vacancies
+app.get("/job-vacancies", async (req, res) => {
+  try {
+    // Query the database for job vacancies
+    const result = await pool.query("SELECT * FROM job_vacancies");
+    res.status(200).json({
+      success: true,
+      data: result.rows,
+    });
+  } catch (error) {
+    console.error("Error fetching job vacancies:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching job vacancies: " + error.message,
+    });
+  }
+});
 
 // Route to handle form submission
 app.post("/send-email", async (req, res) => {
@@ -84,6 +103,6 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
