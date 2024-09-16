@@ -1,9 +1,7 @@
-// index.js
 import express from "express";
 import cors from "cors";
-import { sendEmail } from "./sendEmail.js"; // Assuming this is the correct path for sendEmail
-import upload from "./utils/uploadFile.js";
-import multer from "multer";
+import { sendEmail } from "./sendEmail.js"; // Correct path to sendEmail
+import upload from "./utils/uploadFile.js"; // Correct path to uploadFile
 import { email } from "./constant.js";
 
 const app = express();
@@ -13,6 +11,7 @@ const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 // Route to handle form submission
 app.post("/send-email", async (req, res) => {
   const { name, email, message } = req.body;
@@ -28,7 +27,6 @@ app.post("/send-email", async (req, res) => {
         <p><b>Name:</b>${name}</p>
         <p><b>Email:</b>${email}</p>
         <p><b>Message:</b>${message}</p>
-
       `,
     });
 
@@ -59,20 +57,20 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
         to: "rukeshkhatiwada849@gmail.com",
         subject: "CV Submission",
         html: `
-        <h1>Job Application</h1>
-        <h3>Job Post: ${jobName}
+          <h1>Job Application</h1>
+          <h3>Job Post: ${jobName}</h3>
         `,
         attachments: [
           {
             filename: file.originalname,
-            path: file.path,
+            content: file.buffer, // Use the buffer for the attachment
           },
         ],
       });
       res.status(200).send({
         success: true,
         message:
-          "Yo ur application has been submitted successfully! We will get back to you via the email address provided in your CV as soon as possible.",
+          "Your application has been submitted successfully! We will get back to you via the email address provided in your CV as soon as possible.",
       });
     }
   } catch (error) {
