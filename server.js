@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { sendEmail } from "./sendEmail.js"; // Correct path to sendEmail
-import upload from "./utils/uploadFile.js"; // Correct path to uploadFile
+import upload from "./utils/uploadFile.js";
 import { email } from "./constant.js";
 import pool from "./db.js";
+import { sendEmail } from "./utils/sendEmail.js";
+import jobRouter from "./router/jobRouter.js";
 
 const app = express();
 const PORT = 8000;
@@ -102,6 +103,7 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
   }
 });
 
+app.use("/job", jobRouter);
 // Start the server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${PORT}`);
