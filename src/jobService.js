@@ -1,4 +1,4 @@
-import pool from "../db";
+import pool from "../db.js";
 
 export const createJobService = async (data) => {
   const { job_title, description, requirements, about_job } = data;

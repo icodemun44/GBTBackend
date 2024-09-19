@@ -1,4 +1,4 @@
-import { createJobService, readJobService } from "../src/jobService";
+import { createJobService, readJobService } from "../src/jobService.js";
 
 export const createJobController = async (req, res, next) => {
   let result = await createJobService(req.body);

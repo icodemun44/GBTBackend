@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createJobController,
   readJobController,
-} from "../controller/jobController";
+} from "../controller/jobController.js";
 
 let jobRouter = Router();
 
