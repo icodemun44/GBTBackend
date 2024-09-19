@@ -10,10 +10,17 @@ export const createJobController = async (req, res, next) => {
 };
 
 export const readJobController = async (req, res, next) => {
-  let result = await readJobService();
-  res.status(200).json({
-    success: true,
-    message: "User read successfully",
-    result: result,
-  });
+  try {
+    let result = await readJobService();
+    res.status(200).json({
+      success: true,
+      data: result.rows,
+    });
+  } catch (error) {
+    console.error("Error fetching job vacancies:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching job vacancies: " + error.message,
+    });
+  }
 };

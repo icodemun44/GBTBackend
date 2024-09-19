@@ -18,18 +18,6 @@ export const createJobService = async (data) => {
 };
 
 export const readJobService = async () => {
-  try {
-    // Query the database for job vacancies
-    const result = await pool.query("SELECT * FROM job_vacancies");
-    res.status(200).json({
-      success: true,
-      data: result.rows,
-    });
-  } catch (error) {
-    console.error("Error fetching job vacancies:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching job vacancies: " + error.message,
-    });
-  }
+  const result = await pool.query("SELECT * FROM job_vacancies");
+  return await result;
 };
