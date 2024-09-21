@@ -31,7 +31,7 @@ export const readJobController = async (req, res, next) => {
 export const deleteJobController = async (req, res) => {
   try {
     const { title } = req.body;
-    const result = await deleteJobService({ job_title: title });
+    const result = await deleteJobService(req.body);
 
     if (result > 0) {
       res.status(200).json({ message: "Job vacancy deleted successfully." });
