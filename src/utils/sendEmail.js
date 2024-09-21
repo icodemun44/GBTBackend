@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { email, password } from "../constant.js";
+import { email, password } from "../../constant.js";
 
 // Transporter information setup
 const transporterInfo = {

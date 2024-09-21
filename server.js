@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
-import upload from "./utils/uploadFile.js";
 import { email } from "./constant.js";
-import pool from "./db.js";
-import { sendEmail } from "./utils/sendEmail.js";
-import jobRouter from "./router/jobRouter.js";
+import jobRouter from "./src/router/jobRouter.js";
+import { sendEmail } from "./src/utils/sendEmail.js";
+import { upload } from "./src/utils/uploadFile.js";
 
 const app = express();
 const PORT = 8000;
@@ -14,7 +13,6 @@ app.use(cors());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // Route to handle form submission
 app.post("/send-email", async (req, res) => {
@@ -87,7 +85,6 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
 });
 
 app.use("/job", jobRouter);
-
 
 // Start the server
 app.listen(PORT, "0.0.0.0", () => {

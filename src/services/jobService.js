@@ -1,4 +1,4 @@
-import pool from "../db.js";
+import pool from "../../db.js";
 
 export const createJobService = async (data) => {
   const { job_title, description, requirements, about_job } = data;
@@ -20,4 +20,17 @@ export const createJobService = async (data) => {
 export const readJobService = async () => {
   const result = await pool.query("SELECT * FROM job_vacancies");
   return await result;
+};
+
+export const deleteJobService = async (data) => {
+  try {
+    const result = await pool.query(
+      "DELETE FROM job_vacancies WHERE job_title = $1",
+      [data.job_title]
+    );
+    return result.rowCount;
+  } catch (error) {
+    console.error("Error deleting job vacancy:", error);
+    throw error;
+  }
 };
