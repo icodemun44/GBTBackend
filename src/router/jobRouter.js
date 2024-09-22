@@ -15,4 +15,6 @@ jobRouter
   .delete(deleteJobController)
   .patch(updateJobController);
 
+jobRouter.get("/.title", getJobByTitleController);
+
 export default jobRouter;

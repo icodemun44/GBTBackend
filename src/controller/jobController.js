@@ -65,3 +65,20 @@ export const updateJobController = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getJobByTitleController = async (req, res) => {
+  try {
+    const { title } = req.params;
+    let result = await readJobService(title);
+    res.status(200).json({
+      success: true,
+      data: result.rows,
+    });
+  } catch {
+    console.error("Error fetching job vacancies:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching job vacancy: " + error.message,
+    });
+  }
+};

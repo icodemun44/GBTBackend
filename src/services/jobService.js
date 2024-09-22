@@ -60,3 +60,11 @@ export const updateJobService = async (data) => {
     throw error;
   }
 };
+
+export const getJobByTitleService = async (title) => {
+  const result = await pool.query(
+    "SELECT * FROM job_vacancies WHERE job_title = $1",
+    [title]
+  );
+  return await result;
+};
