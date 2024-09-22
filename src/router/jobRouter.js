@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createJobController,
   deleteJobController,
+  getJobByTitleController,
   readJobController,
   updateJobController,
 } from "../controller/jobController.js";
