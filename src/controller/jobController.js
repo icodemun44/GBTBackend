@@ -1,6 +1,7 @@
 import {
   createJobService,
   deleteJobService,
+  getJobByTitleService,
   readJobService,
   updateJobService,
 } from "../services/jobService.js";
@@ -68,17 +69,17 @@ export const updateJobController = async (req, res) => {
 
 export const getJobByTitleController = async (req, res) => {
   try {
-    let title = req.query.title;
-    let result = await readJobService(title);
-    res.status(200).json({
-      success: true,
-      data: result.rows,
-    });
-  } catch {
-    console.error("Error fetching job vacancies:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching job vacancy: " + error.message,
-    });
+    const title = req.query.title;
+
+    const job = await getJobByTitleService(title);
+
+    if (job) {
+      res.status(200).json(job);
+    } else {
+      res.status(404).json({ message: "Job not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching job by title:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

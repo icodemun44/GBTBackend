@@ -62,9 +62,14 @@ export const updateJobService = async (data) => {
 };
 
 export const getJobByTitleService = async (title) => {
-  const result = await pool.query(
-    "SELECT * FROM job_vacancies WHERE job_title = $1",
-    [title]
-  );
-  return await result;
+  try {
+    const result = await pool.query(
+      "SELECT * FROM job_vacancies WHERE job_title = $1",
+      [title]
+    );
+    return result.rows;
+  } catch (error) {
+    console.error("Error fetching job by title:", error);
+    throw error;
+  }
 };
