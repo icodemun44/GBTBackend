@@ -12,10 +12,15 @@ let jobRouter = Router();
 jobRouter
   .route("/")
   .post(createJobController)
-  .get(readJobController)
   .delete(deleteJobController)
   .patch(updateJobController);
 
-jobRouter.get("/", getJobByTitleController);
+jobRouter.get("/", (req, res) => {
+  if (req.query.title) {
+    return getJobByTitleController(req, res);
+  } else {
+    return readJobController(req, res);
+  }
+});
 
 export default jobRouter;
