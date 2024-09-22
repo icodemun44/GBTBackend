@@ -68,7 +68,7 @@ export const updateJobController = async (req, res) => {
 
 export const getJobByTitleController = async (req, res) => {
   try {
-    const { title } = req.params;
+    let title = req.query.title;
     let result = await readJobService(title);
     res.status(200).json({
       success: true,
