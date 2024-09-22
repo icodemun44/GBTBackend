@@ -2,6 +2,7 @@ import {
   createJobService,
   deleteJobService,
   readJobService,
+  updateJobService,
 } from "../services/jobService.js";
 
 export const createJobController = async (req, res, next) => {
@@ -43,5 +44,24 @@ export const deleteJobController = async (req, res) => {
     res
       .status(500)
       .json({ message: "An error occurred while deleting the job vacancy." });
+  }
+};
+
+export const updateJobController = async (req, res) => {
+  try {
+    const data = req.body;
+    const updatedRows = await updateJobService(data);
+    if (updatedRows > 0) {
+      res
+        .status(200)
+        .json({ message: "Job vacancy updated successfully", updatedRows });
+    } else {
+      res
+        .status(404)
+        .json({ message: "No job vacancy found with the specified title" });
+    }
+  } catch (error) {
+    console.error("Error in updateJobController:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

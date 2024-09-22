@@ -34,3 +34,29 @@ export const deleteJobService = async (data) => {
     throw error;
   }
 };
+
+export const updateJobService = async (data) => {
+  try {
+    const result = await pool.query(
+      `UPDATE job_vacancies
+       SET job_title = $1,
+           description = $2,
+           requirements = $3,
+           about_job = $4,
+           created_at = $5
+       WHERE job_title = $6`,
+      [
+        data.job_title,
+        data.description,
+        data.requirements,
+        data.about_job,
+        data.created_at,
+        data.old_job_title,
+      ]
+    );
+    return result.rowCount;
+  } catch (error) {
+    console.error("Error updating job vacancy:", error);
+    throw error;
+  }
+};

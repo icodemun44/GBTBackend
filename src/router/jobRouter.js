@@ -3,6 +3,7 @@ import {
   createJobController,
   deleteJobController,
   readJobController,
+  updateJobController,
 } from "../controller/jobController.js";
 
 let jobRouter = Router();
@@ -11,6 +12,7 @@ jobRouter
   .route("/")
   .post(createJobController)
   .get(readJobController)
-  .delete(deleteJobController);
+  .delete(deleteJobController)
+  .patch(updateJobController);
 
 export default jobRouter;
