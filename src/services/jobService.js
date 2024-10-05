@@ -1,13 +1,13 @@
 import pool from "../../db.js";
 
 export const createJobService = async (data) => {
-  const { job_title, description, requirements, about_job } = data;
+  const { job_title, description, requirements, about_job, deadline } = data;
   try {
     const result = await pool.query(
-      `INSERT INTO job_vacancies (job_title, description, requirements, about_job)
-             VALUES ($1, $2, $3, $4)
+      `INSERT INTO job_vacancies (job_title, description, requirements, about_job, deadline)
+             VALUES ($1, $2, $3, $4, $5)
              RETURNING *`, // Return the inserted row
-      [job_title, description, requirements, about_job] // The values to insert
+      [job_title, description, requirements, about_job, deadline] // The values to insert
     );
 
     return result.rows[0];
@@ -43,14 +43,14 @@ export const updateJobService = async (data) => {
            description = $2,
            requirements = $3,
            about_job = $4,
-           created_at = $5
+           deadline = $5
        WHERE job_title = $6`,
       [
         data.job_title,
         data.description,
         data.requirements,
         data.about_job,
-        data.created_at,
+        data.deadline,
         data.old_job_title,
       ]
     );
