@@ -4,6 +4,7 @@ import { email } from "./constant.js";
 import jobRouter from "./src/router/jobRouter.js";
 import { sendEmail } from "./src/utils/sendEmail.js";
 import { upload } from "./src/utils/uploadFile.js";
+import pool from "./db.js";
 
 const app = express();
 const PORT = 8000;
@@ -45,9 +46,11 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-app.post("/upload-cv", upload.single("cv"), async (req, res) => {
+app.post("/job-apply", upload.single("cv"), async (req, res) => {
   const file = req.file;
   const jobName = req.body.jobName;
+  const applicantName = req.body.applicantName
+  const applicantEmail = req.body.applicantEmail
   try {
     if (!file) {
       return res
@@ -55,7 +58,7 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
         .send({ success: false, message: "No file uploaded" });
     } else {
       await sendEmail({
-        from: `"Job Applicant" <${email}>`,
+        from: `"Job Applicant" <${applicantEmail}>`,
         to: "rukeshkhatiwada849@gmail.com",
         subject: "CV Submission",
         html: `
@@ -69,6 +72,11 @@ app.post("/upload-cv", upload.single("cv"), async (req, res) => {
           },
         ],
       });
+      await pool.query(
+        `INSERT INTO applicant_data (name, email, job)
+               VALUES ($1, $2, $3)
+               RETURNING *`, // Return the inserted row
+        [applicantName, applicantEmail, jobName])
       res.status(200).send({
         success: true,
         message:
