@@ -49,8 +49,8 @@ app.post("/send-email", async (req, res) => {
 app.post("/job-apply", upload.single("cv"), async (req, res) => {
   const file = req.file;
   const jobName = req.body.jobName;
-  const applicantName = req.body.applicantName
-  const applicantEmail = req.body.applicantEmail
+  const applicantName = req.body.name;
+  const applicantEmail = req.body.email;
   try {
     if (!file) {
       return res
@@ -76,7 +76,8 @@ app.post("/job-apply", upload.single("cv"), async (req, res) => {
         `INSERT INTO applicant_data (name, email, job)
                VALUES ($1, $2, $3)
                RETURNING *`, // Return the inserted row
-        [applicantName, applicantEmail, jobName])
+        [applicantName, applicantEmail, jobName]
+      );
       res.status(200).send({
         success: true,
         message:
