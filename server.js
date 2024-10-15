@@ -5,6 +5,7 @@ import jobRouter from "./src/router/jobRouter.js";
 import { sendEmail } from "./src/utils/sendEmail.js";
 import { upload } from "./src/utils/uploadFile.js";
 import pool from "./db.js";
+import applicantRouter from "./src/router/applicantRouter.js";
 
 const app = express();
 const PORT = 8000;
@@ -94,6 +95,7 @@ app.post("/job-apply", upload.single("cv"), async (req, res) => {
 });
 
 app.use("/job", jobRouter);
+app.use("/applicant", applicantRouter);
 
 // Start the server
 app.listen(PORT, "0.0.0.0", () => {
