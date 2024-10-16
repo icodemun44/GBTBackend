@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { readApplicantController } from "../controller/applicantController.js";
+import {
+  deleteApplicantController,
+  readApplicantController,
+} from "../controller/applicantController.js";
 
 let applicantRouter = Router();
 
-applicantRouter.route("/").get(readApplicantController);
+applicantRouter
+  .route("/")
+  .get(readApplicantController)
+  .delete(deleteApplicantController);
 
 // applicantRouter.route("/", (req, res) => {
 //   if (req.query.title) {
